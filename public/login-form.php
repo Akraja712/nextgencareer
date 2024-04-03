@@ -28,22 +28,15 @@ if (isset($_POST['btnLogin'])) {
     }
 
     if (!empty($email) && !empty($password)) {
-        if (($email == 'dinesh' && $password == 'dinesh2468') || ($email == 'demo' && $password == 'demo123')) {
+        if (($email == 'dinesh' && $password == 'dinesh2468')) {
             if ($email == 'dinesh') {
                 $_SESSION['id'] = '1';
-                $_SESSION['role'] ='Super Admin';
+                $_SESSION['role'] ='Admin';
                 $_SESSION['username'] = 'dinesh';
                 $_SESSION['email'] = 'dinesh@gmail.com';
                 $_SESSION['timeout'] = $currentTime + $expired;
                 header("location: home.php");
-            } elseif ($email == 'demo') {
-                $_SESSION['id'] = '2'; 
-                $_SESSION['role'] ='Admin'; 
-                $_SESSION['username'] = 'demo'; 
-                $_SESSION['email'] = 'demo@gmail.com';
-                $_SESSION['timeout'] = $currentTime + $expired;
-                header("location: home.php");
-            }
+            } 
         } else {
             $error['failed'] = "<span class='label label-danger'>Invalid Email or Password!</span>";
         }
