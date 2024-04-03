@@ -31,12 +31,11 @@ if (isset($_POST['btnLogin'])) {
         if (($email == 'dinesh' && $password == 'dinesh2468')) {
             if ($email == 'dinesh') {
                 $_SESSION['id'] = '1';
-                $_SESSION['role'] ='Admin';
                 $_SESSION['username'] = 'dinesh';
                 $_SESSION['email'] = 'dinesh@gmail.com';
                 $_SESSION['timeout'] = $currentTime + $expired;
                 header("location: home.php");
-            } 
+            }
         } else {
             $error['failed'] = "<span class='label label-danger'>Invalid Email or Password!</span>";
         }

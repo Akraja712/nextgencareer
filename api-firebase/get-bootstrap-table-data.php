@@ -48,56 +48,54 @@ $db->connect();
         $currentdate = date('Y-m-d');
         
         
-            if (isset($_GET['table']) && $_GET['table'] == 'users') {
-                $offset = 0;
-                $limit = 10;
-                $where = '';
-                $sort = 'id';
-                $order = 'DESC';
-        
-                if (isset($_GET['status']) && $_GET['status'] != '') {
-                    $status = $db->escapeString($fn->xss_clean($_GET['status']));
-                    $where .= "status = '$status' ";
-                }
-                if (isset($_GET['date']) && $_GET['date'] != '') {
-                    $date = $db->escapeString($fn->xss_clean($_GET['date']));
-                    if (!empty($where)) {
-                        $where .= "AND ";
-                    }
-                    $where .= "joined_date = '$date' ";
-                }
-        
-                if (isset($_GET['referred_by']) && $_GET['referred_by'] != '') {
-                    $referred_by = $db->escapeString($fn->xss_clean($_GET['referred_by']));
-                    if (!empty($where)) {
-                        $where .= "AND ";
-                    }
-                    $where .= "referred_by = '$referred_by' ";
-                }
-        
-                if (isset($_GET['offset']))
-                    $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
-                if (isset($_GET['limit']))
-                    $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
-        
-                if (isset($_GET['sort']))
-                    $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
-                if (isset($_GET['order']))
-                    $order = $db->escapeString($fn->xss_clean($_GET['order']));
-        
-                if (isset($_GET['search']) && !empty($_GET['search'])) {
-                    $search = $db->escapeString($fn->xss_clean($_GET['search']));
-                    $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%' OR refer_code LIKE '%$search%'";
-                    $where = $where ? "$where AND $searchCondition" : $searchCondition;
-                }
-        
-                // Include condition for Admin to see only data starting with 'BLR'
-                $where = $where ? "$where AND refer_code LIKE 'BLR%'" : "refer_code LIKE 'BLR%'";
-        
-                $sqlCount = "SELECT COUNT(id) as total FROM users " . ($where ? "WHERE $where" : "");
-                $db->sql($sqlCount);
-                $resCount = $db->getResult();
-                $total = $resCount[0]['total'];
+if (isset($_GET['table']) && $_GET['table'] == 'users') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['status']) && $_GET['status'] != '') {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "status = '$status' ";
+    }    
+    if (isset($_GET['date']) && $_GET['date'] != '') {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "joined_date = '$date' ";
+    }
+ 
+    if (isset($_GET['referred_by']) && $_GET['referred_by'] != '') {
+        $referred_by = $db->escapeString($fn->xss_clean($_GET['referred_by']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "referred_by = '$referred_by' ";
+    }
+ 
+  
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+     if (isset($_GET['search']) && !empty($_GET['search'])) {
+         $search = $db->escapeString($fn->xss_clean($_GET['search']));
+         $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%' OR refer_code LIKE '%$search%'";
+         $where = $where ? "$where AND $searchCondition" : $searchCondition;
+     }
+    
+     $sqlCount = "SELECT COUNT(id) as total FROM users " . ($where ? "WHERE $where" : "");
+     $db->sql($sqlCount);
+     $resCount = $db->getResult();
+     $total = $resCount[0]['total'];
     
      $sql = "SELECT * FROM users " . ($where ? "WHERE $where" : "") . " ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
@@ -109,11 +107,9 @@ $db->connect();
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-
-        $support_id = $row['support_id'];
-
       
-
+        $support_id = $row['support_id'];
+        
         $operate = ' <a href="edit-users.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-users.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
@@ -151,7 +147,8 @@ $db->connect();
     }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
-}   
+}
+
 
 //faq
 if (isset($_GET['table']) && $_GET['table'] == 'faq') {
