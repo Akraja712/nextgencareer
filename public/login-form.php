@@ -36,7 +36,7 @@ if (isset($_POST['btnLogin'])) {
                 $_SESSION['email'] = 'dinesh@gmail.com';
                 $_SESSION['timeout'] = $currentTime + $expired;
                 header("location: home.php");
-            } elseif ($email == 'dinesh') {
+            } elseif ($email == 'demo') {
                 $_SESSION['id'] = '2'; 
                 $_SESSION['role'] ='Admin'; 
                 $_SESSION['username'] = 'demo'; 
